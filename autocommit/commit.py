@@ -1,15 +1,6 @@
-from __future__ import print_function, unicode_literals
-from PyInquirer import prompt as py_inquirer_prompt, style_from_dict, Token
-import subprocess
-
-import keyring
-
 import os
-import re
-import markdown
 import sys
 
-from pydantic import BaseModel
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
@@ -52,31 +43,14 @@ def generate_suggestion(diff, repo_info, openai_api_key=OPENAI_KEY):
     return response
 
 
-SERVICE_ID = "auto-commit-cli"
-
-
-def prompt_for_openai_api_key():
-    questions = [
-        {
-            "type": "input",
-            "name": "openai_api_key",
-            "message": "Please enter your OpenAI API key:",
-        }
-    ]
-    answers = py_inquirer_prompt(questions)
-    openai_api_key = answers["openai_api_key"]
-    keyring.set_password(SERVICE_ID, "user", openai_api_key)
-    return openai_api_key
-
-
 def main():
     # Prompt for OpenAI API key if it's not set
     if OPENAI_KEY:
         openai_api_key = OPENAI_KEY
     else:
-        openai_api_key = keyring.get_password(SERVICE_ID, "user")
-        if openai_api_key is None:
-            openai_api_key = prompt_for_openai_api_key()
+        print("No API key provided")
+        exit(-1)
+
     diff = sys.stdin.read()
 
     if len(diff) == 0:
