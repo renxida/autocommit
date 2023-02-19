@@ -26,7 +26,8 @@ prompt = PromptTemplate(
     Reply with what you think is the best possible Git commit message 
     (a Git commit message should be concise but also try to describe 
     the important changes in the commit). Print exactly the proposed 
-    commit message and not a single word more, no introduction text. 
+    commit message and not a single word more, no introduction text 
+    such as "Commit: ". Also there is no need to include filenames.
     The git repository is described as: 
     {repo_info}
     ------- 
