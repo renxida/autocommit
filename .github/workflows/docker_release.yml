@@ -1,4 +1,7 @@
 name: build image
+on:
+  push:
+    branches: [main]
 jobs:
   build_and_push_docker:
     name: build docker image and push to ghcr.io
